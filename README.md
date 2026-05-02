@@ -1,23 +1,22 @@
-# Wearable Multi-Sensor Integration System using ESP32
+# Wearable Sensor Integration System using ESP32
 
 ## Overview
-This project focuses on the integration of multiple sensors into a wearable system using the ESP32 microcontroller. The system is designed to acquire real-time physiological and environmental data while maintaining efficient communication using the I²C protocol.
+This project focuses on the integration of multiple sensors into a wearable system using the ESP32 microcontroller. The system demonstrates reliable sensor interfacing, I²C-based communication, and real-time raw data acquisition.
 
-The project demonstrates reliable sensor interfacing, power management, and continuous data acquisition, forming a strong foundation for wearable health monitoring and safety systems.
+The work primarily involves sensor bring-up, signal observation, and basic signal processing for physiological data. Advanced features such as BLE communication, mobile application, and emergency alerts are part of planned future development.
 
 ---
 
 ## Objectives
-- Integrate multiple sensors using a shared I²C communication bus  
+- Integrate multiple sensors using the I²C protocol  
 - Perform sensor initialization and connectivity verification  
-- Acquire continuous real-time sensor data  
-- Analyze raw signal behavior (noise, fluctuations, stability)  
-- Implement a compact and power-efficient wearable hardware setup  
+- Acquire real-time raw sensor data  
+- Analyze signal behavior such as noise and instability  
+- Apply basic filtering techniques for improved signal quality  
 
 ---
 
 ## Hardware Components
-
 - ESP WROOM 32 MCU Module (ESP32)  
 - MAX30102 Heart Rate and SpO₂ Sensor  
 - MPU-6050 3-Axis Accelerometer and Gyroscope  
@@ -31,35 +30,30 @@ The project demonstrates reliable sensor interfacing, power management, and cont
 ---
 
 ## System Architecture
-
 The ESP32 acts as the central controller and communicates with all sensors using the I²C protocol.
 
 ### I²C Connections
 - SDA → GPIO 21  
 - SCL → GPIO 22  
 
-All sensors share:
-- Common 3.3V supply  
-- Common ground  
+All sensors share a common 3.3V power supply and ground.
 
 ---
 
-## Sensors Description
+## Sensors Used
 
 ### MAX30102 (PPG Sensor)
-- Measures heart rate and blood oxygen (SpO₂)  
-- Uses red and infrared light (photoplethysmography)  
-- Outputs raw IR and Red signal values  
+- Measures heart rate and SpO₂ using photoplethysmography  
+- Generates raw IR and Red signal values  
+- Used for pulse detection and oxygen estimation  
 
 ### MPU-6050
 - 3-axis accelerometer and gyroscope  
 - Provides motion and orientation data  
-- Useful for movement tracking and fall detection  
 
 ### AHT10
 - Digital temperature and humidity sensor  
-- Provides calibrated environmental data  
-- Low power consumption  
+- Provides environmental data for monitoring  
 
 ### INA219
 - Measures voltage, current, and power  
@@ -67,71 +61,77 @@ All sensors share:
 
 ---
 
-## Power Management System
-
-- **LiPo Battery (3.7V, 500mAh)** powers the system  
-- **TP4056 Module** handles battery charging and protection  
-- **AMS1117-3.3V Regulator** provides stable 3.3V output for ESP32 and sensors  
-
-This setup ensures safe, portable, and continuous operation suitable for wearable devices.
+## Power System
+- LiPo Battery (3.7V, 500mAh) powers the system  
+- TP4056 module handles battery charging and protection  
+- AMS1117 regulator provides stable 3.3V output  
 
 ---
 
-## Features
-- Multi-sensor integration using I²C  
-- Real-time data acquisition from all sensors  
-- Sensor connectivity testing and initialization  
-- Battery voltage and current monitoring  
-- Compact and portable hardware setup  
+## Work Done
+
+### Sensor Integration
+- Interfaced MAX30102, MPU6050, AHT10, and INA219 with ESP32  
+- Established I²C communication and verified sensor detection  
+- Initialized sensors and configured parameters  
+
+### Data Acquisition
+- Collected raw IR and Red signals from MAX30102  
+- Read motion data from MPU6050  
+- Measured temperature and humidity using AHT10  
+- Monitored battery parameters using INA219  
+
+### Signal Observation
+- Observed noise in raw sensor data due to motion and placement  
+- Identified fluctuations and instability in PPG signals  
+
+### Basic Signal Processing
+- Applied filtering techniques such as:
+  - Moving Average  
+  - Exponential Moving Average (EMA)  
+- Implemented basic peak detection logic for heart rate estimation  
+- Developed initial logic for BPM and SpO₂ calculation  
 
 ---
 
-## Data Acquisition
+## Observations and Challenges
 
-The system continuously reads:
-- IR and Red values (MAX30102)  
-- Acceleration and gyroscope data (MPU6050)  
-- Temperature and humidity (AHT10)  
-- Battery voltage and current (INA219)  
+### Signal Noise
+- MAX30102 signals are highly sensitive to motion  
+- Improper finger placement causes unstable readings  
+- Sudden spikes and drops affect accuracy  
 
-Data is displayed via serial output and can be logged for further analysis.
+### Filtering Challenges
+- Raw data produced inconsistent outputs  
+- Required tuning of filtering parameters  
+- Difficulty in stabilizing BPM values  
 
----
-
-## Observations
-
-### Sensor Noise
-- MAX30102 signals are sensitive to motion and contact  
-- Raw data contains fluctuations and requires filtering  
-
-### Hardware Challenges
-- Incorrect wiring leads to sensor detection failure  
-- Stable power supply is essential for consistent readings  
-
-### Wearable Constraints
-- Motion and placement affect sensor accuracy  
-- Signal stability varies with real-world usage  
+### Hardware Issues
+- Initial sensor detection failures due to wiring issues  
+- Importance of stable power supply and connections  
 
 ---
 
-## Future Scope
-- Apply digital signal processing (DSP) for noise reduction  
-- Calculate heart rate (BPM) and SpO₂ accurately  
-- Implement BLE communication for wireless data transfer  
-- Develop a mobile application for real-time monitoring  
-- Optimize PCB design for compact wearable form  
+## Planned Features (Future Work)
+- Real-time Heart Rate (BPM) monitoring  
+- SpO₂ (Blood Oxygen Level) calculation  
+- Temperature monitoring  
+- Fall detection using MPU6050  
+- SOS / Emergency alert system  
+- BLE communication for wireless data transfer  
+- Mobile application for live data display  
+- Battery monitoring and power optimization  
 
 ---
 
 ## Technologies Used
-- ESP32 (Embedded Systems)  
-- Arduino IDE (C/C++)  
+- ESP32 Microcontroller  
+- Arduino IDE (Embedded C/C++)  
 - I²C Communication Protocol  
 - Serial Monitoring  
-- Embedded Sensor Integration  
+- Basic Digital Signal Processing (DSP)  
 
 ---
 
 ## Author
 Keerthi Harsha  
-Electronics and Communication Engineering
